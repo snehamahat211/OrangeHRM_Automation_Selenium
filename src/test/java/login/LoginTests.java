@@ -15,6 +15,7 @@ public class LoginTests extends BaseTests {
         Mainpage mainpage=homepage.clickLoginButton();
         UserTable usertable=mainpage.clickAdmin();
         usertable.setDelete();
+        usertable.setDeletefix();
 
     }
 }
