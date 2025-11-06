@@ -27,9 +27,11 @@ public class Homepage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(passwordfield)).sendKeys(password1);
     }
 
-    public void  clickLoginButton()
+    public Mainpage clickLoginButton()
     {
         driver.findElement(loginbutton).click();
+        return new Mainpage(driver);
+
     }
 
 

@@ -1,6 +1,9 @@
 package login;
 
 import Base.BaseTests;
+import Pages.DeleteAlert;
+import Pages.Mainpage;
+import Pages.UserTable;
 import org.testng.annotations.Test;
 
 public class LoginTests extends BaseTests {
@@ -9,7 +12,9 @@ public class LoginTests extends BaseTests {
     {
         homepage.setUsername("Admin");
         homepage.setPassword("admin123");
-        homepage.clickLoginButton();
+        Mainpage mainpage=homepage.clickLoginButton();
+        UserTable usertable=mainpage.clickAdmin();
+        usertable.setDelete();
 
     }
 }
