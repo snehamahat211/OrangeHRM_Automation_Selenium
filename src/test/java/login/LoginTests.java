@@ -2,6 +2,7 @@ package login;
 
 import Base.BaseTests;
 import Pages.DeleteAlert;
+import Pages.EditInfo;
 import Pages.Mainpage;
 import Pages.UserTable;
 import org.testng.annotations.Test;
@@ -17,6 +18,11 @@ public class LoginTests extends BaseTests {
         usertable.setDelete();
         DeleteAlert deletealert=usertable.setDeletefix();
         deletealert.clickDelete();
+
+
+        EditInfo editinfo=usertable.setEditInfo();
+        editinfo.clickDropdown();
+
 
 
     }
