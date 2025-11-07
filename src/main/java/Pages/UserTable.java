@@ -15,7 +15,7 @@ public class UserTable {
         this.driver = driver;
     }
     public DeleteAlert setDelete() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfElementLocated(delete)).click();
         return new DeleteAlert(driver);
     }
