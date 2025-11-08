@@ -15,17 +15,21 @@ public class UserTable {
     public UserTable(WebDriver driver) {
         this.driver = driver;
     }
-    public DeleteAlert setDelete() {
+
+    public DeleteAlert setDelete()
+    {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfElementLocated(delete)).click();
         return new DeleteAlert(driver);
     }
-    public DeleteAlert setDeletefix() {
+    public DeleteAlert setDeletefix()
+    {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(deletefix)).click();
         return new DeleteAlert(driver);
     }
-    public EditInfo setEditInfo(){
+    public EditInfo setEditInfo()
+    {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(Edit)).click();
         return new EditInfo(driver);

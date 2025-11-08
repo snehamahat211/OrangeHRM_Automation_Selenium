@@ -17,7 +17,9 @@ public class LoginTests extends BaseTests {
         UserTable usertable=mainpage.clickAdmin();
         usertable.setDelete();
         DeleteAlert deletealert=usertable.setDeletefix();
-        deletealert.clickDelete();
+        deletealert.clickCancel();
+//        deletealert.clickDelete();
+
 
 
         EditInfo editinfo=usertable.setEditInfo();

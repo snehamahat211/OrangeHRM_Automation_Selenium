@@ -13,6 +13,8 @@ public class EditInfo {
     private WebDriver driver;
     private By Dropdown= By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[1]/div/div[2]/div/div");
     private By Name=By.xpath(" //*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[2]/div/div[2]/div/div/input");
+    private By Dropdown2=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[3]/div/div[2]/div/div/div[1]");
+    private By Username=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[4]/div/div[2]/input");
     public EditInfo(WebDriver driver) {
         this.driver = driver;
     }
@@ -28,7 +30,9 @@ public class EditInfo {
             inputfield.sendKeys(Keys.BACK_SPACE);
         }
         inputfield.sendKeys("Sneha Mahat");
+
     }
+
 
 
 }
