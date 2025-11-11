@@ -1,9 +1,6 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,6 +15,7 @@ public class EditInfo {
     private By nameInput = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[2]/div/div[2]/div/div/input");
     private By dropdown2 = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[3]/div/div[2]/div/div/div[1]");
     private By usernameInput = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[4]/div/div[2]/input");
+    private By checkpassword=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[5]/div/div[2]/div/label/span/i");
 
     public EditInfo(WebDriver driver) {
         this.driver = driver;
@@ -26,25 +24,25 @@ public class EditInfo {
 
     // ---------- 🔁 REUSABLE HELPERS ----------
 
-    /** Waits for an element to be visible and returns it */
+
     private WebElement waitForElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    /** Clicks on any element */
+
     private void click(By locator) {
         waitForElement(locator).click();
     }
 
-    /** Clears existing text and types new value */
+
     private void clearAndType(By locator, String text) {
         WebElement inputField = waitForElement(locator);
-        inputField.sendKeys(Keys.CONTROL + "a");  // select all
-        inputField.sendKeys(Keys.BACK_SPACE);     // clear
-        inputField.sendKeys(text);                // type new value
+        inputField.sendKeys(Keys.CONTROL + "a");
+        inputField.sendKeys(Keys.BACK_SPACE);
+        inputField.sendKeys(text);
     }
 
-    // ---------- 🎯 PAGE ACTIONS ----------
+
 
     public void selectFirstDropdown() {
         click(dropdown);
@@ -61,12 +59,35 @@ public class EditInfo {
     public void enterUsername(String username) {
         clearAndType(usernameInput, username);
     }
+    public void setCheckbox(boolean check) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    // ---------- 💡 FULL WORKFLOW ----------
+        // Wait for the "Invalid" field to disappear (or not visible)
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[text()='Invalid']")));
+        } catch (TimeoutException ignored) {
+            System.out.println("Warning: Validation still visible — using JS click anyway");
+        }
+
+        WebElement checkbox = driver.findElement(checkpassword);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkbox);
+
+        if (checkbox.isSelected() != check) {
+            try {
+                checkbox.click();
+            } catch (ElementClickInterceptedException e) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkbox);
+            }
+        }
+    }
+
+
+
     public void fillUserInfo(String name, String username) {
         selectFirstDropdown();
         enterName(name);
         selectSecondDropdown();
         enterUsername(username);
+        setCheckbox(true);
     }
 }
