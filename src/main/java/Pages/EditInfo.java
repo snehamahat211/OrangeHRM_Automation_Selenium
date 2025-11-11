@@ -17,6 +17,7 @@ public class EditInfo {
     private By checkpassword = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[5]/div/div[2]/div/label/span/i");
     private By password = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[1]/div/div[2]/input");
     private By confirmpass = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[2]/div/div[2]/input");
+    private By save=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/button[2]");
 
     public EditInfo(WebDriver driver) {
         this.driver = driver;
@@ -83,8 +84,21 @@ public class EditInfo {
     public void enterConfirmPassword(String cfpassword) {
         clearAndType(confirmpass, cfpassword);
     }
+    public void clickSave() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(save));
 
-    // ✅ Fill user info with password check
+        try {
+            // Scroll into view before clicking
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
+            saveButton.click();
+        } catch (ElementClickInterceptedException e) {
+            // Fallback if blocked by overlay or animation
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
+        }
+    }
+
+
     public void fillUserInfo(String name, String username, String cpassword, String cfpassword) {
         selectFirstDropdown();
         enterName(name);
@@ -100,5 +114,7 @@ public class EditInfo {
         // Enter passwords (only if equal)
         enterPassword(cpassword);
         enterConfirmPassword(cfpassword);
+
+
     }
 }
