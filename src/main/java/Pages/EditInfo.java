@@ -9,7 +9,6 @@ public class EditInfo {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // Locators
     private By dropdown = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[1]/div/div[2]/div/div");
     private By nameInput = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[2]/div/div[2]/div/div/input");
     private By dropdown2 = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[3]/div/div[2]/div/div/div[1]");
@@ -111,7 +110,7 @@ public class EditInfo {
         enterUsername(username);
         setCheckbox(true);
 
-        // Check if passwords match before entering
+
         if (!cpassword.equals(cfpassword)) {
             throw new AssertionError("Password and Confirm Password do not match!");
         }
