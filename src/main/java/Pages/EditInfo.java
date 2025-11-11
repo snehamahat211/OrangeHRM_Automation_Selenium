@@ -17,14 +17,13 @@ public class EditInfo {
     private By checkpassword = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[5]/div/div[2]/div/label/span/i");
     private By password = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[1]/div/div[2]/input");
     private By confirmpass = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[2]/div/div[2]/input");
-    private By save=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/button[2]");
+    private By save=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[3]/button[2]");
 
     public EditInfo(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(12));
     }
 
-    // ---------- 🔁 REUSABLE HELPERS ----------
 
     private WebElement waitForElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -85,18 +84,24 @@ public class EditInfo {
         clearAndType(confirmpass, cfpassword);
     }
     public void clickSave() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(save));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        wait.until(webDriver -> ((JavascriptExecutor) webDriver)
+                .executeScript("return document.readyState").equals("complete"));
+
+        // Wait for the Save button to be present
+        WebElement saveButton = wait.until(ExpectedConditions.presenceOfElementLocated(save));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
 
         try {
-            // Scroll into view before clicking
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
             saveButton.click();
         } catch (ElementClickInterceptedException e) {
-            // Fallback if blocked by overlay or animation
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
         }
     }
+
+
 
 
     public void fillUserInfo(String name, String username, String cpassword, String cfpassword) {
@@ -111,7 +116,6 @@ public class EditInfo {
             throw new AssertionError("Password and Confirm Password do not match!");
         }
 
-        // Enter passwords (only if equal)
         enterPassword(cpassword);
         enterConfirmPassword(cfpassword);
 
