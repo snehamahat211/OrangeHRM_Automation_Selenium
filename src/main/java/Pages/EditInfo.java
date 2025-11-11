@@ -3,7 +3,6 @@ package Pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class EditInfo {
@@ -15,7 +14,9 @@ public class EditInfo {
     private By nameInput = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[2]/div/div[2]/div/div/input");
     private By dropdown2 = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[3]/div/div[2]/div/div/div[1]");
     private By usernameInput = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[4]/div/div[2]/input");
-    private By checkpassword=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[5]/div/div[2]/div/label/span/i");
+    private By checkpassword = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[5]/div/div[2]/div/label/span/i");
+    private By password = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[1]/div/div[2]/input");
+    private By confirmpass = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[2]/div/div[2]/input");
 
     public EditInfo(WebDriver driver) {
         this.driver = driver;
@@ -24,16 +25,13 @@ public class EditInfo {
 
     // ---------- 🔁 REUSABLE HELPERS ----------
 
-
     private WebElement waitForElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-
     private void click(By locator) {
         waitForElement(locator).click();
     }
-
 
     private void clearAndType(By locator, String text) {
         WebElement inputField = waitForElement(locator);
@@ -41,8 +39,6 @@ public class EditInfo {
         inputField.sendKeys(Keys.BACK_SPACE);
         inputField.sendKeys(text);
     }
-
-
 
     public void selectFirstDropdown() {
         click(dropdown);
@@ -59,10 +55,9 @@ public class EditInfo {
     public void enterUsername(String username) {
         clearAndType(usernameInput, username);
     }
+
     public void setCheckbox(boolean check) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        // Wait for the "Invalid" field to disappear (or not visible)
         try {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[text()='Invalid']")));
         } catch (TimeoutException ignored) {
@@ -81,13 +76,29 @@ public class EditInfo {
         }
     }
 
+    public void enterPassword(String cpassword) {
+        clearAndType(password, cpassword);
+    }
 
+    public void enterConfirmPassword(String cfpassword) {
+        clearAndType(confirmpass, cfpassword);
+    }
 
-    public void fillUserInfo(String name, String username) {
+    // ✅ Fill user info with password check
+    public void fillUserInfo(String name, String username, String cpassword, String cfpassword) {
         selectFirstDropdown();
         enterName(name);
         selectSecondDropdown();
         enterUsername(username);
         setCheckbox(true);
+
+        // Check if passwords match before entering
+        if (!cpassword.equals(cfpassword)) {
+            throw new AssertionError("Password and Confirm Password do not match!");
+        }
+
+        // Enter passwords (only if equal)
+        enterPassword(cpassword);
+        enterConfirmPassword(cfpassword);
     }
 }

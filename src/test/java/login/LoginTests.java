@@ -25,7 +25,7 @@ public class LoginTests extends BaseTests {
         EditInfo editinfo=usertable.setEditInfo();
 //        editinfo.clickDropdown();
 //        editinfo.clickName();
-        editinfo.fillUserInfo("sneha Mahat","sneha211");
+        editinfo.fillUserInfo("sneha Mahat","sneha211","abcd123#","abcd123#");
 
 
 
