@@ -1,5 +1,6 @@
 package Pages;
 
+import com.beust.ah.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,5 +24,11 @@ public class Mainpage  {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(admin)).click();
         return new UserTable(driver);
+    }
+
+    public Addpage clickUser() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(admin)).click();
+        return new Addpage(driver);
     }
 }
