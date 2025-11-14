@@ -23,6 +23,9 @@ public class DeleteAlert {
 
     public void clickCancel() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(".oxd-dialog-container-default")
+        ));
         wait.until(ExpectedConditions.visibilityOfElementLocated(cancel)).click();
     }
 

@@ -95,6 +95,7 @@ public class EditInfo {
 
         try {
             saveButton.click();
+
         } catch (ElementClickInterceptedException e) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
         }
