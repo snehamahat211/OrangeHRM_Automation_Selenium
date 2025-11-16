@@ -7,97 +7,93 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class Includepage {
+
     private WebDriver driver;
     private WebDriverWait wait;
-    private By user=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[1]/div/div[2]/div/div");
-    private By employee=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[2]/div/div[2]/div/div/input");
-    private By status=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[3]/div/div[2]/div/div/div[1]");
-    private By username=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[4]/div/div[2]/input");
-    private By password=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[1]/div/div[2]/input");
-    private By confirmpass=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[2]/div/div[2]/div/div[2]/input");
-    private By save=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[3]/button[2]");
+
+    // Better/short XPaths
+    private By roleDropdown = By.xpath("//label[text()='User Role']/../following-sibling::div//div[contains(@class,'oxd-select-text')]");
+    private By employeeName = By.xpath("//input[@placeholder='Type for hints...']");
+    private By statusDropdown = By.xpath("//label[text()='Status']/../following-sibling::div//div[contains(@class,'oxd-select-text')]");
+    private By username = By.xpath("//label[text()='Username']/../following-sibling::div/input");
+    private By password = By.xpath("//label[text()='Password']/../following-sibling::div/input");
+    private By confirmPassword = By.xpath("//label[text()='Confirm Password']/../following-sibling::div/input");
+    private By save = By.xpath("//button[@type='submit']");
 
     public Includepage(WebDriver driver) {
-        this.driver=driver;
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20)); // FIXED
     }
-    private WebElement waitForElement(By locator) {
+
+    private WebElement waitForVisible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     private void click(By locator) {
-        waitForElement(locator).click();
-    }
-
-    private void clearAndType(By locator, String text) {
-        WebElement inputField = waitForElement(locator);
-        inputField.sendKeys(Keys.CONTROL + "a");
-        inputField.sendKeys(Keys.BACK_SPACE);
-        inputField.sendKeys(text);
-    }
-
-    public void selectFirstDropdown() {
-        click(user);
-    }
-
-    public void enterName(String name) {
-        clearAndType(username, name);
-    }
-
-    public void selectSecondDropdown() {
-        click(status);
-    }
-
-    public void enterUsername(String username) {
-        clearAndType(employee, username);
-    }
-
-
-    public void enterPassword(String cpassword) {
-        clearAndType(password, cpassword);
-    }
-
-    public void enterConfirmPassword(String cfpassword) {
-        clearAndType(confirmpass, cfpassword);
-    }
-    public void clickSaved() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        wait.until(webDriver -> ((JavascriptExecutor) webDriver)
-                .executeScript("return document.readyState").equals("complete"));
-
-        // Wait for the Save button to be present
-        WebElement saveButton = wait.until(ExpectedConditions.presenceOfElementLocated(save));
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
-
+        WebElement element = waitForVisible(locator);
         try {
-            saveButton.click();
-
-        } catch (ElementClickInterceptedException e) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
+            element.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
         }
     }
 
+    private void type(By locator, String text) {
+        WebElement input = waitForVisible(locator);
+        input.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+        input.sendKeys(text);
+    }
 
+    // ---------------- ACTIONS ----------------
 
+    public void selectUserRole() {
+        click(roleDropdown);
+    }
 
-    public void fillUserInfo(String name, String username, String cpassword, String cfpassword) {
-        selectFirstDropdown();
-        enterName(name);
-        selectSecondDropdown();
-        enterUsername(username);
+    public void enterEmployeeName(String empName) {
+        type(employeeName, empName);
+    }
 
+    public void selectStatus() {
+        click(statusDropdown);
+    }
 
+    public void enterUsername(String user) {
+        type(username, user);
+    }
 
-        if (!cpassword.equals(cfpassword)) {
+    public void enterPassword(String pass) {
+        type(password, pass);
+    }
+
+    public void enterConfirmPassword(String confirm) {
+        type(confirmPassword, confirm);
+    }
+
+    public void clickSave() {
+        WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(save));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveBtn);
+
+        try {
+            saveBtn.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
+        }
+    }
+
+    public void fillUserInfo(String empName, String user, String pass, String confirmPass) {
+
+        selectUserRole();
+        enterEmployeeName(empName);
+
+        selectStatus();
+        enterUsername(user);
+
+        if (!pass.equals(confirmPass)) {
             throw new AssertionError("Password and Confirm Password do not match!");
         }
 
-        enterPassword(cpassword);
-        enterConfirmPassword(cfpassword);
-
-
+        enterPassword(pass);
+        enterConfirmPassword(confirmPass);
     }
 }
-
-

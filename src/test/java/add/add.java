@@ -16,7 +16,8 @@ public class add extends BaseTests {
         Mainpage mainpage=homepage.clickLoginButton();
         Addpage addpage=mainpage.clickUser();
         Includepage includepage =addpage.clickAddbutton();
-        includepage.clickSaved();
+        includepage.fillUserInfo("sneha Mahat","sneha211","abcd123#","abcd123#");
+        includepage.clickSave();
 
 
 
