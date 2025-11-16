@@ -19,6 +19,7 @@ public class Includepage {
     private By password = By.xpath("//label[text()='Password']/../following-sibling::div/input");
     private By confirmPassword = By.xpath("//label[text()='Confirm Password']/../following-sibling::div/input");
     private By save = By.xpath("//button[@type='submit']");
+    private By cancel = By.xpath("//button[@type='button']");
 
     public Includepage(WebDriver driver) {
         this.driver = driver;
@@ -78,6 +79,16 @@ public class Includepage {
             saveBtn.click();
         } catch (Exception e) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
+        }
+    }
+    public void clickcancel() {
+        WebElement cancelBtn = wait.until(ExpectedConditions.elementToBeClickable(cancel));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cancelBtn);
+
+        try {
+            cancelBtn.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", cancelBtn);
         }
     }
 
