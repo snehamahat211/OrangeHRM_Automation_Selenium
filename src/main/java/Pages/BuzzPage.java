@@ -2,23 +2,27 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class BuzzPage {
-    public WebDriver driver;
+    private WebDriver driver;
     private WebDriverWait wait;
-    private By buzz = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[12]/a/span");
+
+    // MUCH MORE STABLE LOCATOR
+    private By describe = By.xpath("//textarea[contains(@class,'oxd-textarea')]");
 
     public BuzzPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void BuzzPage() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(buzz)).click();
+    public void writedescribe(String describe1) {
+        WebElement box = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(describe)
+        );
+        box.sendKeys(describe1);
     }
 }
-

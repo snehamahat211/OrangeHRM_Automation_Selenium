@@ -11,6 +11,7 @@ import java.time.Duration;
 public class Mainpage  {
     public WebDriver driver;
     private By admin = By.xpath("//span[text()='Admin']");
+    private By buzz = By.xpath("//span[text()='Buzz']");
 
 
 
@@ -30,5 +31,12 @@ public class Mainpage  {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(admin)).click();
         return new Addpage(driver);
+    }
+
+    public BuzzPage  clickBuzz() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(buzz)).click();
+        return new BuzzPage(driver);
+
     }
 }
