@@ -11,18 +11,16 @@ public class BuzzPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // MUCH MORE STABLE LOCATOR
-    private By describe = By.xpath("//textarea[contains(@class,'oxd-textarea')]");
+    private By describe = By.xpath("//textarea[contains(@class,'oxd-buzz-post-input')]");
 
     public BuzzPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void writedescribe(String describe1) {
-        WebElement box = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(describe)
-        );
-        box.sendKeys(describe1);
+    public void writedescribe(String text) {
+        WebElement box = wait.until(ExpectedConditions.elementToBeClickable(describe));
+        box.click();
+        box.sendKeys(text);
     }
 }
