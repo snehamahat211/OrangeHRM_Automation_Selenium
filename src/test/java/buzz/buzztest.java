@@ -14,6 +14,7 @@ public class buzztest extends BaseTests {
         Mainpage mainpage=homepage.clickLoginButton();
         BuzzPage buzzpage=mainpage.clickBuzz();
         buzzpage.writedescribe("good innovation leads to success");
+        buzzpage.postbuzz();
 
 
 

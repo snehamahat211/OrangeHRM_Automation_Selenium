@@ -12,7 +12,10 @@ public class BuzzPage {
     private WebDriverWait wait;
 
     private By describe = By.xpath("//textarea[contains(@class,'oxd-buzz-post-input')]");
-    private By post=By.xpath("By postButton = By.xpath(//button[contains(@class,'oxd-buzz-post-button')]");
+    private By post = By.xpath("//form//button[@type='submit']");
+
+
+
 
     public BuzzPage(WebDriver driver) {
         this.driver = driver;
@@ -24,7 +27,7 @@ public class BuzzPage {
         box.click();
         box.sendKeys(text);
     }
-    public void clickBuzz() {
+    public void postbuzz() {
         WebElement postbox = wait.until(ExpectedConditions.elementToBeClickable(post));
         postbox.click();
 
